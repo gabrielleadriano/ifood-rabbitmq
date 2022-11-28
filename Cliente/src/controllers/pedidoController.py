@@ -1,15 +1,14 @@
-from flask import Flask
-from flask_restx import Api, Resource
+from flask_restx import Resource
 import pika
 import json
 
-from src.server.instance import server
+from src.server.instance import server_cliente
 
 connection = pika.BlockingConnection(pika.ConnectionParameters( 'localhost' ))
 channel = connection.channel()
 channel.queue_declare(queue= 'pedidos')
 
-app, api = server.app, server.api
+app, api = server_cliente.app, server_cliente.api
 
 teste = 'retorno rabbit'
 
@@ -29,4 +28,3 @@ def envia_pedido(pedido):
                       routing_key='pedidos',
                       body=pedido) 
     print("Pedido enviado")
-    # connection.close()

@@ -1,18 +1,17 @@
 import pika
-from src.main.restaurante import *
+from src.main.pedidos import *
 
 class Consumer():
     def __init__(self, ):
         connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
         channel = connection.channel()
 
-        channel.queue_declare(queue='pedidos')
+        channel.queue_declare(queue='pedidos-status')
 
         def callback(ch, method, properties, body):
             print("recebido", body)
-            Restaurante.recebe_pedido(Restaurante, body)
 
-        channel.basic_consume(queue='pedidos', on_message_callback=callback, auto_ack=True)
+        channel.basic_consume(queue='pedidos-status', on_message_callback=callback, auto_ack=True)
         channel.start_consuming()
         connection.close()
     
@@ -21,4 +20,4 @@ class Consumer():
             debug=True
         )
 
-consumer_restaurante = Consumer()
+consumer_cliente = Consumer()

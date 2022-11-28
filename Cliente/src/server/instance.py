@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restx import Api
 
-class Server():
+class ServerCliente():
     def __init__(self, ):
         self.app = Flask(__name__)
         self.api = Api(self.app,
@@ -16,4 +16,4 @@ class Server():
             debug=True
         )
 
-server = Server()
+server_cliente = ServerCliente()

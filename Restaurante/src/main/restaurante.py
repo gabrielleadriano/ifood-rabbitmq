@@ -1,6 +1,7 @@
 import json
 import time
 from enum import Enum
+from src.controllers.pedidoStatusController import *
 
 global lista_pedidos
 lista_pedidos = []
@@ -30,14 +31,17 @@ class Restaurante:
         pedido_dict = json.loads(pedido)
         lista_pedidos.append(pedido_dict.copy())
         # self.altera_status(lista_pedidos[0])
-        self.processa_pedidos()
-        return lista_pedidos
+        self.processa_pedidos(self)
 
     # processa todos os pedidos, alterando os status
+    # quando finaliza remove o pedido da lista
     def processa_pedidos(self):
         while len(lista_pedidos) > 0:
-            for i in len(lista_pedidos):
+            for i in range(len(lista_pedidos)):
                 self.altera_status(lista_pedidos[i])
+                EnviaPedidoStatus.enviar(lista_pedidos[i])
+                if lista_pedidos[i]["status"] == PedidoStatus.FINALIZADO.value:
+                    lista_pedidos.remove(lista_pedidos[i])
             
 
 
