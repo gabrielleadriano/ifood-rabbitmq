@@ -9,7 +9,7 @@ class Consumer():
         channel.queue_declare(queue='pedidos')
 
         def callback(ch, method, properties, body):
-            print("recebido", body)
+            print('recebido', body)
             Restaurante.recebe_pedido(Restaurante, body)
 
         channel.basic_consume(queue='pedidos', on_message_callback=callback, auto_ack=True)

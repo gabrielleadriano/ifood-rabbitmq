@@ -1,23 +1,32 @@
-from flask import Flask
-from flask_restx import Api
+import pika
+import json
+import requests
 
-
-from src.server.pedidos import Pedido
 
 class Consumer():
     def __init__(self, ):
-        self.app = Flask(__name__)
-        self.api = Api(self.app,
-            version='1.0',
-            title='Consulta',
-            description='Consulta',
-            doc='/docs'
-        )
-    
+        connection = pika.BlockingConnection(
+            pika.ConnectionParameters(host='localhost'))
+        channel = connection.channel()
+
+        channel.queue_declare(queue='pedidos-status')
+
+        def callback(ch, method, properties, body):
+            pedido = json.loads(body)
+
+            # envia para o servidor REST
+            url = "http://localhost:5000/pedido-status"
+            requests.post(url, json=pedido)
+
+        channel.basic_consume(queue='pedidos-status',
+                              on_message_callback=callback, auto_ack=True)
+        channel.start_consuming()
+        connection.close()
+
     def run(self, ):
         self.app.run(
-            port=8090,
             debug=True
         )
+
 
 consumer_cliente = Consumer()

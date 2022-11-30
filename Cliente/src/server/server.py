@@ -13,7 +13,7 @@ class ServerCliente():
         
     def run(self, ):
         self.app.run(
-            port=8085,
+            port=5000,
             debug=True
         )
 
