@@ -1,0 +1,15 @@
+1 – Entra na pasta do projeto (necessário fazer para pedidos e restaurate)
+cd Users\bianca.jesus\Docs\py\Restaurante
+2 – Lembra de apagar as pastas venv e de chache se existirem
+3 – Roda esse comando: py -3 -m venv venv
+	Ele que vai criar uma instância virtual do teu projeto
+4 – Roda esse comando: venv\Scripts\activate
+	Ele vai ativar a instância virtual
+5 – Roda esses comandos: 
+pip install flask
+python.exe -m pip install --upgrade pip
+pip install Werkzeug==2.2.2
+pip install flask_restx
+pip install pika
+
+6 – Pronto só rodar o arquivo python, lembra que vai precisar fazer esse processo duas vezes 
